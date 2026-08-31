@@ -1,5 +1,5 @@
-﻿using Financial_Management.Enum;
-using Financial_Management.Models;
+﻿using FinancialManagement.Enum;
+using FinancialManagement.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinancialManagement.DTOs

@@ -37,13 +37,17 @@ namespace FinancialManagement.Services
         public async Task<List<TransactionResponseDto>> GetAllTransactions()
         {
             var transactions = await _context.MoneyManagements
+                .Include(t => t.Client)
+                .Include(t => t.ExpenseCategory)
                 .Select(t => new TransactionResponseDto
                 {
                     Id = t.Id,
                     Amount = t.Amount,
                     TransactionType = t.TransactionType,
                     Description = t.Description,
-                    TransactionDate = DateTime.Now
+                    TransactionDate = t.TransactionDate,
+                    CategoryName = t.ExpenseCategory != null ? t.ExpenseCategory.Name : "",
+                    ClientName = t.Client != null ? t.Client.Name : ""
                 })
                 .ToListAsync();
             return transactions;

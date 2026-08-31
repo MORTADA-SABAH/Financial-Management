@@ -17,6 +17,7 @@ namespace FinancialManagement.Models
 
         [Column(TypeName = "decimal(18,4)")]
         public decimal Balance { get; set; }
+        public string Address { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

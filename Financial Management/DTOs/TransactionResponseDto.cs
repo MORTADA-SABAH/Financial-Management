@@ -1,4 +1,4 @@
-﻿using Financial_Management.Enum;
+﻿using FinancialManagement.Enum;
 
 namespace FinancialManagement.DTOs
 {
@@ -9,5 +9,7 @@ namespace FinancialManagement.DTOs
         public TransactionType TransactionType { get; set; }
         public string? Description { get; set; }
         public DateTime TransactionDate { get; set; }
+        public string? CategoryName { get; set; }
+        public string? ClientName { get; set; }
     }
 }

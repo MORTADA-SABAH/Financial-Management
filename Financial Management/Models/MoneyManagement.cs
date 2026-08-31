@@ -1,5 +1,5 @@
-﻿using Financial_Management.Enum;
-using Financial_Management.Models;
+﻿using FinancialManagement.Models;
+using FinancialManagement.Enum;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

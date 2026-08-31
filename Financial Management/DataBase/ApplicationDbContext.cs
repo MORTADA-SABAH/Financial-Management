@@ -1,5 +1,4 @@
-﻿using Financial_Management.Models;
-using FinancialManagement.Models;
+﻿using FinancialManagement.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinancialManagement.DataBase
