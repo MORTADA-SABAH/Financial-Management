@@ -23,7 +23,7 @@ namespace FinancialManagement.Controllers
             return Ok(result);
         }
 
-        [HttpGet("Add")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllClients()
         {
             var result = await _clientService.GetAllClients();

@@ -1,4 +1,5 @@
-﻿using FinancialManagement.DTOs;
+﻿using Financial_Management.DTOs;
+using FinancialManagement.DTOs;
 using FinancialManagement.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,9 +24,9 @@ namespace FinancialManagement.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllTransactions()
+        public async Task<IActionResult> GetAllTransactions([FromQuery] TransactionFilterDto filter)
         {
-            var result = await _transactionService.GetAllTransactions();
+            var result = await _transactionService.GetAllTransactions(filter);
             return Ok(result);
         }
     }

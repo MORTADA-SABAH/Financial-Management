@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Financial_Management.DTOs;
+using FinancialManagement.DataBase;
 using FinancialManagement.DTOs;
 using FinancialManagement.Models;
-using FinancialManagement.DataBase;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinancialManagement.Services
@@ -34,11 +35,26 @@ namespace FinancialManagement.Services
             return "ok";
         }
 
-        public async Task<List<TransactionResponseDto>> GetAllTransactions()
+        public async Task<List<TransactionResponseDto>> GetAllTransactions(TransactionFilterDto filter)
         {
-            var transactions = await _context.MoneyManagements
-                .Include(t => t.Client)
-                .Include(t => t.ExpenseCategory)
+            var query = _context.MoneyManagements.AsQueryable();
+
+            if (filter.ClientId.HasValue)
+                query = query.Where(t => t.ClientId == filter.ClientId.Value);
+
+            if (filter.ExpenseCategoryId.HasValue)
+                query = query.Where(t => t.ExpenseCategoryId == filter.ExpenseCategoryId.Value);
+
+            if (filter.TransactionType.HasValue)
+                query = query.Where(t => (int)t.TransactionType == filter.TransactionType.Value);
+
+            if (filter.FromDate.HasValue)
+                query = query.Where(t => t.TransactionDate >= filter.FromDate.Value);
+
+            if (filter.ToDate.HasValue)
+                query = query.Where(t => t.TransactionDate <= filter.ToDate.Value);
+
+            return await query
                 .Select(t => new TransactionResponseDto
                 {
                     Id = t.Id,
@@ -50,7 +66,6 @@ namespace FinancialManagement.Services
                     ClientName = t.Client != null ? t.Client.Name : ""
                 })
                 .ToListAsync();
-            return transactions;
         }
     }
 }
