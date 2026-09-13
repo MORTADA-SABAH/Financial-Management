@@ -19,20 +19,34 @@ namespace FinancialManagement.Services
 
         public async Task<string> AddTransaction(CreateTransactionDto dto)
         {
+           if(dto.ClientId.HasValue && dto.ClientId.Value > 0)
+            {
+                var client = await _context.Clients.FindAsync(dto.ClientId.Value);
+                if(client == null)
+                {
+                    return "الزبون المحدد غير موجود";
+                }
+                if((int)dto.TransactionType == 1)
+                {
+                    client.Balance -= dto.Amount;
+                }
+                else if((int)dto.TransactionType == 2)
+                {
+                    client.Balance += dto.Amount;
+                }
+            }
             var newTransaction = new MoneyManagement
             {
                 Amount = dto.Amount,
                 TransactionType = dto.TransactionType,
                 Description = dto.Description,
                 TransactionDate = DateTime.Now,
-
-                ClientId = dto.ClientId,
-                ExpenseCategoryId = dto.ExpenseCategoryId
+                ClientId = (dto.ClientId.HasValue && dto.ClientId.Value > 0) ? dto.ClientId : null,
+                ExpenseCategoryId = (dto.ExpenseCategoryId.HasValue && dto.ExpenseCategoryId.Value > 0) ? dto.ExpenseCategoryId : null
             };
-
             _context.MoneyManagements.Add(newTransaction);
             await _context.SaveChangesAsync();
-            return "ok";
+            return "تمت إضافة المعاملة وتحديث رصيد الزبون بنجاح";
         }
 
         public async Task<List<TransactionResponseDto>> GetAllTransactions(TransactionFilterDto filter)

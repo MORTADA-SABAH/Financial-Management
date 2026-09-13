@@ -6,5 +6,6 @@
         public string PhoneNumber { get; set; }
         public string Name { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
+        public decimal Balance { get; set; }
     }
 }

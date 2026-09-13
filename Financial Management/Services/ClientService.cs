@@ -36,6 +36,7 @@ namespace FinancialManagement.Services
                     Name = c.Name,
                     PhoneNumber = c.PhoneNumber,
                     Date = c.CreatedAt
+                    Balance = c.Balance,
                 })
                 .ToListAsync();
 
